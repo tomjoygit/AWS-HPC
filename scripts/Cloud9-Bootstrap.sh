@@ -77,11 +77,11 @@ HEADNODE_PRIVATE_IP=$(/home/ec2-user/.local/bin/pcluster describe-cluster --clus
 echo "export HEADNODE_PRIVATE_IP='${HEADNODE_PRIVATE_IP}'" >> cluster_env
 
 # Modify the Message Of The Day
-sudo rm -f /etc/update-motd.d/*
+#sudo rm -f /etc/update-motd.d/*
 #sudo aws s3 cp --quiet "s3://${S3_BUCKET}/1click-hpc/scripts/motd"  /etc/update-motd.d/10-HPC --region "${AWS_REGION_NAME}" || exit 1
-sudo curl -o- https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/motd > /etc/update-motd.d/10-HPC || exit 1
-sudo chmod +x /etc/update-motd.d/10-HPC
-echo 'run-parts /etc/update-motd.d' >> /home/ec2-user/.bash_profile
+#sudo curl -o- https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/motd > /etc/update-motd.d/10-HPC || exit 1
+#sudo chmod +x /etc/update-motd.d/10-HPC
+#echo 'run-parts /etc/update-motd.d' >> /home/ec2-user/.bash_profile
 
 #attach the ParallelCluster SG to the Cloud9 instance (for FSx or NFS)
 INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
