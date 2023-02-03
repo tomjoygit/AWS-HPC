@@ -50,10 +50,10 @@ EOF
 fi
 export FSX
 
-/usr/bin/envsubst < "1click-hpc/parallelcluster/config.${AWS_REGION_NAME}.sample.yaml" > config.${AWS_REGION_NAME}.yaml
-/usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "1click-hpc/enginframe/mysql/efdb.config" > efdb.config
-/usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "1click-hpc/enginframe/efinstall.config" > efinstall.config
-/usr/bin/envsubst '${S3_BUCKET}' < "1click-hpc/enginframe/fm.browse.ui" > fm.browse.ui
+/usr/bin/envsubst < "AWS-HPC/parallelcluster/config.${AWS_REGION_NAME}.sample.yaml" > config.${AWS_REGION_NAME}.yaml
+/usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/mysql/efdb.config" > efdb.config
+/usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/efinstall.config" > efinstall.config
+/usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/enginframe/fm.browse.ui" > fm.browse.ui
 
 aws s3 cp --quiet efinstall.config "s3://${S3_BUCKET}/1click-hpc/enginframe/efinstall.config" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet fm.browse.ui "s3://${S3_BUCKET}/1click-hpc/enginframe/fm.browse.ui" --region "${AWS_REGION_NAME}"
@@ -71,28 +71,29 @@ fi
 sudo chmod 400 /home/ec2-user/.ssh/id_rsa
 
 #Create the cluster and wait
-/home/ec2-user/.local/bin/pcluster create-cluster --cluster-name "hpc-1click-${CLUSTER_NAME}" --cluster-configuration config.${AWS_REGION_NAME}.yaml --rollback-on-failure false --wait
+/home/ec2-user/.local/bin/pcluster create-cluster --cluster-name "${CLUSTER_NAME}" --cluster-configuration config.${AWS_REGION_NAME}.yaml --rollback-on-failure false --wait
 
-HEADNODE_PRIVATE_IP=$(/home/ec2-user/.local/bin/pcluster describe-cluster --cluster-name "hpc-1click-${CLUSTER_NAME}" | jq -r '.headNode.privateIpAddress')
+HEADNODE_PRIVATE_IP=$(/home/ec2-user/.local/bin/pcluster describe-cluster --cluster-name "${CLUSTER_NAME}" | jq -r '.headNode.privateIpAddress')
 echo "export HEADNODE_PRIVATE_IP='${HEADNODE_PRIVATE_IP}'" >> cluster_env
 
 # Modify the Message Of The Day
 sudo rm -f /etc/update-motd.d/*
-sudo aws s3 cp --quiet "s3://${S3_BUCKET}/1click-hpc/scripts/motd"  /etc/update-motd.d/10-HPC --region "${AWS_REGION_NAME}" || exit 1
+#sudo aws s3 cp --quiet "s3://${S3_BUCKET}/1click-hpc/scripts/motd"  /etc/update-motd.d/10-HPC --region "${AWS_REGION_NAME}" || exit 1
+sudo curl -o- https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/motd > /etc/update-motd.d/10-HPC || exit 1
 sudo chmod +x /etc/update-motd.d/10-HPC
 echo 'run-parts /etc/update-motd.d' >> /home/ec2-user/.bash_profile
 
 #attach the ParallelCluster SG to the Cloud9 instance (for FSx or NFS)
 INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
 SG_CLOUD9=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query Reservations[*].Instances[*].SecurityGroups[*].GroupId --output text)
-SG_HEADNODE=$(aws cloudformation describe-stack-resources --stack-name "hpc-1click-${CLUSTER_NAME}" --logical-resource-id ComputeSecurityGroup --query "StackResources[*].PhysicalResourceId" --output text)
+SG_HEADNODE=$(aws cloudformation describe-stack-resources --stack-name "${CLUSTER_NAME}" --logical-resource-id ComputeSecurityGroup --query "StackResources[*].PhysicalResourceId" --output text)
 aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID --groups $SG_CLOUD9 $SG_HEADNODE
 
 #increase the maximum number of files that can be handled by file watcher,
 sudo bash -c 'echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf' && sudo sysctl -p
 
 if [[ $FSX_ID == "AUTO" ]];then
-  FSX_ID=$(aws cloudformation describe-stack-resources --stack-name "hpc-1click-${CLUSTER_NAME}" --logical-resource-id FSX0 --query "StackResources[*].PhysicalResourceId" --output text)
+  FSX_ID=$(aws cloudformation describe-stack-resources --stack-name "${CLUSTER_NAME}" --logical-resource-id FSX0 --query "StackResources[*].PhysicalResourceId" --output text)
 fi
 
 FSX_DNS_NAME=$(aws fsx describe-file-systems --file-system-ids $FSX_ID --query "FileSystems[*].DNSName" --output text)

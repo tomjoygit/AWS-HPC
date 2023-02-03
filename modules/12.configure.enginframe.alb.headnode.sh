@@ -48,9 +48,10 @@ EOF
 
 downloadALBhooks() {
     
-    aws s3 cp --quiet "${post_install_base}/enginframe/alb.session.closing.hook.sh" "${EF_DATA_ROOT}/plugins/interactive/bin/" --region "${cfn_region}" || exit 1
-    aws s3 cp --quiet "${post_install_base}/enginframe/alb.session.starting.hook.sh" "${EF_DATA_ROOT}/plugins/interactive/bin/" --region "${cfn_region}" || exit 1
-
+    #aws s3 cp --quiet "${post_install_base}/enginframe/alb.session.closing.hook.sh" "${EF_DATA_ROOT}/plugins/interactive/bin/" --region "${cfn_region}" || exit 1
+	 wget https://github.com/tomjoygit/AWS-HPC/blob/main/enginframe/alb.session.closing.hook.sh -P ${EF_DATA_ROOT}/plugins/interactive/bin/ || exit 1
+    #aws s3 cp --quiet "${post_install_base}/enginframe/alb.session.starting.hook.sh" "${EF_DATA_ROOT}/plugins/interactive/bin/" --region "${cfn_region}" || exit 1
+     wget https://github.com/tomjoygit/AWS-HPC/blob/main/enginframe/alb.session.starting.hook.sh -P ${EF_DATA_ROOT}/plugins/interactive/bin/ || exit 1
     ### FIX: DO NOT TO HARDCODE usernames
     chown ec2-user:efnobody "${EF_DATA_ROOT}/plugins/interactive/bin/alb.session.closing.hook.sh"
     chmod +x "${EF_DATA_ROOT}/plugins/interactive/bin/alb.session.closing.hook.sh"

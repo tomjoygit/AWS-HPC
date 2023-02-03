@@ -20,7 +20,7 @@ set -x
 set -e
 
 configureSACCT() {
-    aws s3 cp --quiet "${post_install_base}/scripts/prolog.sh" "${SLURM_ETC}/" --region "${cfn_region}" || exit 1
+    wget  https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/prolog.sh -P "${SLURM_ETC}/" || exit 1
     chmod +x "${SLURM_ETC}/prolog.sh"
     echo "Prolog=/opt/slurm/etc/prolog.sh" >> "${SLURM_ETC}/slurm.conf"
 }

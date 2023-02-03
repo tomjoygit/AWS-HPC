@@ -14,7 +14,7 @@ HeadNode:
         - 10.install.enginframe.headnode.sh
         - 12.configure.enginframe.alb.headnode.sh
         - 20.install.dcv.slurm.headnode.sh
-      Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+      Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
   Iam:
     AdditionalIamPolicies:
       - Policy: arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
@@ -35,12 +35,6 @@ HeadNode:
     Secured: false
 Image:
   Os: alinux2
-DirectoryService:
-  DomainName: dc=corp,dc=pcluster,dc=com
-  DomainAddr: ${NLB_PUBLIC_DNS_NAME}
-  PasswordSecretArn: ${SECRET_ARN}
-  DomainReadOnlyUser: cn=ReadOnlyUser,ou=Users,ou=CORP,dc=corp,dc=pcluster,dc=com
-  LdapTlsReqCert: never
 Region: ${AWS_REGION_NAME}
 Scheduling:
   Scheduler: slurm
@@ -94,7 +88,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -144,7 +138,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -180,7 +174,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -217,7 +211,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -254,7 +248,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -304,7 +298,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -353,7 +347,7 @@ Scheduling:
         OnNodeConfigured:
           Args:
             - 04.configure.disable.anacron.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -402,7 +396,7 @@ Scheduling:
             - 04.configure.disable.anacron.compute.sh
             - 25.install.dcv-server.gpu.sh
             - 26.configure.dcv.alb.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
@@ -453,7 +447,7 @@ Scheduling:
             - 04.configure.disable.anacron.compute.sh
             - 25.install.dcv-server.compute.sh
             - 26.configure.dcv.alb.compute.sh
-          Script: s3://${S3_BUCKET}/1click-hpc/scripts/post.install.sh
+          Script: https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/post.install.sh
       Iam:
         AdditionalIamPolicies:
           - Policy: arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole
