@@ -55,10 +55,10 @@ export FSX
 /usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/efinstall.config" > efinstall.config
 /usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/enginframe/fm.browse.ui" > fm.browse.ui
 
-aws s3 cp --quiet efinstall.config "s3://${S3_BUCKET}/1click-hpc/enginframe/efinstall.config" --region "${AWS_REGION_NAME}"
-aws s3 cp --quiet fm.browse.ui "s3://${S3_BUCKET}/1click-hpc/enginframe/fm.browse.ui" --region "${AWS_REGION_NAME}"
-aws s3 cp --quiet efdb.config "s3://${S3_BUCKET}/1click-hpc/enginframe/mysql/efdb.config" --region "${AWS_REGION_NAME}"
-aws s3 cp --quiet /usr/bin/mysql "s3://${S3_BUCKET}/1click-hpc/enginframe/mysql/mysql" --region "${AWS_REGION_NAME}"
+aws s3 cp --quiet efinstall.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/efinstall.config" --region "${AWS_REGION_NAME}"
+aws s3 cp --quiet fm.browse.ui "s3://${S3_BUCKET}/AWS-HPC/enginframe/fm.browse.ui" --region "${AWS_REGION_NAME}"
+aws s3 cp --quiet efdb.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/mysql/efdb.config" --region "${AWS_REGION_NAME}"
+aws s3 cp --quiet /usr/bin/mysql "s3://${S3_BUCKET}/AWS-HPC/enginframe/mysql/mysql" --region "${AWS_REGION_NAME}"
 rm -f fm.browse.ui efinstall.config
 
 #Create the key pair (remove the existing one if it has the same name)
@@ -78,7 +78,7 @@ echo "export HEADNODE_PRIVATE_IP='${HEADNODE_PRIVATE_IP}'" >> cluster_env
 
 # Modify the Message Of The Day
 sudo rm -f /etc/update-motd.d/*
-#sudo aws s3 cp --quiet "s3://${S3_BUCKET}/1click-hpc/scripts/motd"  /etc/update-motd.d/10-HPC --region "${AWS_REGION_NAME}" || exit 1
+#sudo aws s3 cp --quiet "s3://${S3_BUCKET}/AWS-HPC/scripts/motd"  /etc/update-motd.d/10-HPC --region "${AWS_REGION_NAME}" || exit 1
 #sudo curl -o- https://github.com/tomjoygit/AWS-HPC/blob/main/scripts/motd > /etc/update-motd.d/10-HPC || exit 1
 #sudo chmod +x /etc/update-motd.d/10-HPC
 #echo 'run-parts /etc/update-motd.d' >> /home/ec2-user/.bash_profile

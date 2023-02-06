@@ -77,7 +77,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Condition: CreateVpc
     Properties:
-      TemplateURL: https://raw.githubusercontent.com/tomjoygit/AWS-HPC/main/Templates/HPC-Networking.yaml
+      TemplateURL: s3://hpc-direct/AWS-HPC/Templates/HPC-Networking.yaml
 
 #lest use privateA , privateA, and privateB
 #be consistent with parameter names across CF templates
@@ -348,6 +348,9 @@ Resources:
             - !Sub echo "export AWS_REGION_NAME=${AWS::Region}" >> cluster_env
             - !Sub echo "export S3_BUCKET=${Cloud9OutputBucket}" >> cluster_env
             - !Sub echo "export FSX_ID=${FSx}" >> cluster_env
+            - /usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/parallelcluster/config.eu-west-1.sample.yaml" > config.eu-west-1.sample.yaml
+            - aws s3 sync --quiet AWS-HPC "s3://${S3_BUCKET}/AWS-HPC" --region "${AWS_REGION_NAME}"
+            - aws s3 cp --quite config.eu-west-1.sample.yaml "s3://${S3_BUCKET}/AWS-HPC/parallelcluster/" --region "${AWS_REGION_NAME}"
             - !Sub
               - echo "export PRIVATE_SUBNET_ID=${FinalPrivateSubnetAId}" >> cluster_env
               - FinalPrivateSubnetAId: !If [CreateVpc, !GetAtt HPCNetworkStack.Outputs.PrivateSubnetA, !Ref PrivateSubnetAId]            
