@@ -77,7 +77,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Condition: CreateVpc
     Properties:
-      TemplateURL: https://github.com/tomjoygit/AWS-HPC/blob/main/Templates/HPC-Networking.yaml
+      TemplateURL: https://raw.githubusercontent.com/tomjoygit/AWS-HPC/main/Templates/HPC-Networking.yaml
 
 #lest use privateA , privateA, and privateB
 #be consistent with parameter names across CF templates

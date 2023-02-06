@@ -30,7 +30,7 @@ runScripts() {
     echo "Getting packages from ${post_install_url}"
     for script in "${@}"; do
         #aws s3 cp --quiet ${post_install_base}/modules/${script} "${TMP_MODULES_DIR}" --region "${cfn_region}" || exit 1
-         wget https://github.com/tomjoygit/AWS-HPC/tree/main/modules/${script} -P ${TMP_MODULES_DIR} || exit 1
+         wget https://raw.githubusercontent.com/tomjoygit/AWS-HPC/main/modules/${script} -P ${TMP_MODULES_DIR} || exit 1
     done
 
     chmod 755 -R "${TMP_MODULES_DIR}"*
