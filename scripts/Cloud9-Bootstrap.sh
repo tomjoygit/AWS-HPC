@@ -50,15 +50,17 @@ EOF
 fi
 export FSX
 
-/usr/bin/envsubst < "AWS-HPC/parallelcluster/config.${AWS_REGION_NAME}.sample.yaml" > config.${AWS_REGION_NAME}.yaml
+#/usr/bin/envsubst < "AWS-HPC/parallelcluster/config.${AWS_REGION_NAME}.sample.yaml" > config.${AWS_REGION_NAME}.yaml
 /usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/mysql/efdb.config" > efdb.config
 /usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/efinstall.config" > efinstall.config
 /usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/enginframe/fm.browse.ui" > fm.browse.ui
+/usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/parallelcluster/config.eu-west-1.sample.yaml" > config.${AWS_REGION_NAME}.yaml
 
 aws s3 cp --quiet efinstall.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/efinstall.config" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet fm.browse.ui "s3://${S3_BUCKET}/AWS-HPC/enginframe/fm.browse.ui" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet efdb.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/mysql/efdb.config" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet /usr/bin/mysql "s3://${S3_BUCKET}/AWS-HPC/enginframe/mysql/mysql" --region "${AWS_REGION_NAME}"
+aws s3 cp --quite config.${AWS_REGION_NAME}.yaml "s3://${S3_BUCKET}/AWS-HPC/parallelcluster/" --region "${AWS_REGION_NAME}"
 rm -f fm.browse.ui efinstall.config
 
 #Create the key pair (remove the existing one if it has the same name)
