@@ -54,7 +54,7 @@ export FSX
 /usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/mysql/efdb.config" > efdb.config
 /usr/bin/envsubst '${SLURM_DB_ENDPOINT}' < "AWS-HPC/enginframe/efinstall.config" > efinstall.config
 /usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/enginframe/fm.browse.ui" > fm.browse.ui
-/usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/parallelcluster/config.eu-west-1.sample.yaml" > config.${AWS_REGION_NAME}.yaml
+/usr/bin/envsubst '${S3_BUCKET},${FSX}' < "AWS-HPC/parallelcluster/config.eu-west-1.sample.yaml" > config.${AWS_REGION_NAME}.yaml
 
 aws s3 cp --quiet efinstall.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/efinstall.config" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet fm.browse.ui "s3://${S3_BUCKET}/AWS-HPC/enginframe/fm.browse.ui" --region "${AWS_REGION_NAME}"
