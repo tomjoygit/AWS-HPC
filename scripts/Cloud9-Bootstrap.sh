@@ -60,7 +60,7 @@ aws s3 cp --quiet efinstall.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/efinsta
 aws s3 cp --quiet fm.browse.ui "s3://${S3_BUCKET}/AWS-HPC/enginframe/fm.browse.ui" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet efdb.config "s3://${S3_BUCKET}/AWS-HPC/enginframe/mysql/efdb.config" --region "${AWS_REGION_NAME}"
 aws s3 cp --quiet /usr/bin/mysql "s3://${S3_BUCKET}/AWS-HPC/enginframe/mysql/mysql" --region "${AWS_REGION_NAME}"
-aws s3 cp --quite config.${AWS_REGION_NAME}.yaml "s3://${S3_BUCKET}/AWS-HPC/parallelcluster/" --region "${AWS_REGION_NAME}"
+aws s3 cp --quiet config.${AWS_REGION_NAME}.yaml "s3://${S3_BUCKET}/AWS-HPC/parallelcluster/" --region "${AWS_REGION_NAME}"
 rm -f fm.browse.ui efinstall.config
 
 #Create the key pair (remove the existing one if it has the same name)
