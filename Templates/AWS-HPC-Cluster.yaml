@@ -526,7 +526,7 @@ Resources:
     - LogGroupLambdaGetHeadNodeIP
     Properties:
       ServiceToken: !GetAtt LambdaGetHeadNodeIP.Arn
-      StackName: !Sub '${AWS::StackName}'
+      StackName: !Sub 'tme-${AWS::StackName}'
 
   LowerCaseLambda:
     Type: 'AWS::Lambda::Function'
