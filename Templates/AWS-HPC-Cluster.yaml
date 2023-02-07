@@ -351,6 +351,7 @@ Resources:
             - /usr/bin/envsubst '${S3_BUCKET}' < "AWS-HPC/parallelcluster/config.eu-west-1.sample.yaml" > config.eu-west-1.sample.yaml
             - aws s3 sync --quiet AWS-HPC "s3://${S3_BUCKET}/AWS-HPC" --region "${AWS_REGION_NAME}"
             - aws s3 cp --quite config.eu-west-1.sample.yaml "s3://${S3_BUCKET}/AWS-HPC/parallelcluster/" --region "${AWS_REGION_NAME}"
+            - yes|cp config.eu-west-1.sample.yaml AWS-HPC/parallelcluster/config.eu-west-1.sample.yaml
             - !Sub
               - echo "export PRIVATE_SUBNET_ID=${FinalPrivateSubnetAId}" >> cluster_env
               - FinalPrivateSubnetAId: !If [CreateVpc, !GetAtt HPCNetworkStack.Outputs.PrivateSubnetA, !Ref PrivateSubnetAId]            
@@ -368,8 +369,8 @@ Resources:
             - !Sub
               - echo "export KEY_PAIR=\"${AWS::StackName}-${RANDOM}\"" >> cluster_env
               - RANDOM: !Select [0, !Split ['-', !Select [2, !Split ['/', !Ref 'AWS::StackId' ]]]]
-            - !Sub echo "export POST_INSTALL=\"s3://${Cloud9OutputBucket}/1click-hpc/scripts/post.install.sh\"" >> cluster_env
-            - !Sub sudo -H -u ec2-user bash -c "aws s3 cp --quiet --recursive AWS-HPC \"s3://${Cloud9OutputBucket}/1click-hpc\" --region ${AWS::Region}"
+            - !Sub echo "export POST_INSTALL=\"s3://${Cloud9OutputBucket}/AWS-HPC/scripts/post.install.sh\"" >> cluster_env
+            - !Sub sudo -H -u ec2-user bash -c "aws s3 cp --quiet --recursive AWS-HPC \"s3://${Cloud9OutputBucket}/AWS_HPC\" --region ${AWS::Region}"
             - chmod -x /home/ec2-user/environment/AWS-HPC/scripts/Cloud9-Bootstrap.sh
             - sudo -H -u ec2-user bash -c "bash /home/ec2-user/environment/AWS-HPC/scripts/Cloud9-Bootstrap.sh"
 
