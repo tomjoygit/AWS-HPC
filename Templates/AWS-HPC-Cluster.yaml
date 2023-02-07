@@ -320,7 +320,7 @@ Resources:
   Password:
     Type: 'AWS::SecretsManager::Secret'
     Properties:
-      Name: !Sub 'hpc-1click-${AWS::StackName}'
+      Name: !Sub '${AWS::StackName}'
       Description: This the password used for RDS and ec2-user
       SecretString: !Ref AdminPassword
 
