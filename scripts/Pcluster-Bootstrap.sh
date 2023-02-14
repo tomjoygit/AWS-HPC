@@ -69,9 +69,9 @@ rm -f fm.browse.ui efinstall.config
 
 
 #Create the cluster and wait
-sudo /home/ec2-user/.local/bin/pcluster create-cluster --cluster-name "tme-${CLUSTER_NAME}" --cluster-configuration config.${AWS_REGION_NAME}.yaml --region ${AWS_REGION_NAME} --rollback-on-failure false --wait
+/home/ec2-user/.local/bin/pcluster create-cluster --cluster-name "tme-${CLUSTER_NAME}" --cluster-configuration config.${AWS_REGION_NAME}.yaml --region ${AWS_REGION_NAME} --rollback-on-failure false --wait
 
-HEADNODE_PRIVATE_IP=$(sudo /home/ec2-user/.local/bin/pcluster describe-cluster --cluster-name "tme-${CLUSTER_NAME}" --region ${AWS_REGION_NAME}  | jq -r '.headNode.privateIpAddress')
+HEADNODE_PRIVATE_IP=$(/home/ec2-user/.local/bin/pcluster describe-cluster --cluster-name "tme-${CLUSTER_NAME}" --region ${AWS_REGION_NAME}  | jq -r '.headNode.privateIpAddress')
 echo "export HEADNODE_PRIVATE_IP='${HEADNODE_PRIVATE_IP}'" >> cluster_env
 
 # Modify the Message Of The Day
