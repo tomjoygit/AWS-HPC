@@ -11,8 +11,11 @@ sudo yum -y -q install jq
 sudo chown -R ec2-user:ec2-user /home/ec2-user/
 #source cluster profile and move to the home dir
 cd /home/ec2-user/environment
-. cluster_env
 
+. cluster_env
+ALB=$(aws elbv2 describe-load-balancers --names test-alb --query "LoadBalancers[].DNSName[]" --region ${AWS_REGION_NAME} --output text)
+echo "export ALB_PUBLIC_DNS_NAME='${ALB}'" >> cluster_env
+. cluster_env
 #install Lustre client
 sudo amazon-linux-extras install -y lustre2.10 > /dev/null 2>&1
 
